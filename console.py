@@ -3,6 +3,12 @@
 import cmd
 from models.base_model import BaseModel
 import models
+from models.user import User
+from models.state import State
+from models.city import City
+from models.amenity import Amenity
+from models.place import Place
+from models.review import Review
 
 
 class HBNBCommand(cmd.Cmd):
@@ -25,70 +31,77 @@ class HBNBCommand(cmd.Cmd):
         pass
 
     def do_create(self, line):
-        """Creates a new instance of BaseModel"""
-        if not line:
+        """Creates a new instance of User"""
+        lines = line.split()
+        if len(lines) == 0:
             print("** class name missing **")
-            return
-        if line != 'BaseModel':
-            print("** class doesn't exit **")
-            return
-        obj = BaseModel()
-        obj.save()
-        print(obj.id)
+        else:
+            cls_name = lines[0]
+            if cls_name in globals() and issubclass(globals()[cls_name], BaseModel):
+                obj = globals()[cls_name]()
+                obj.save()
+                print(obj.id)
+            else:
+                print("** class doesn't exist **")
 
     def do_show(self, line):
         """Prints the string representation of an instance based
         on class name and id"""
-        if not line:
+        lines = line.split()
+        if len(lines) == 0:
             print("** class name missing **")
-            return
-        if line[0] != "BaseModel":
-            print("** class doesn't exist **")
-            return
-        if len(line) == 1:
+        elif len(lines) == 1:
             print("** instance id missing **")
-            return
-        key = f"{line[0]}.{line[1]}"
+        key = f"{lines[0]}.{lines[1]}"
         if key not in models.storage.all():
             print("** no instance found **")
-            return
         print(models.storage.all()[key])
 
     def do_destroy(self, line):
         """Deletese an instance based on the class name and id"""
-        if not line:
+        lines = line.split()
+        if len(lines) == 0:
             print("** class name missing **")
-            return
-        if line[0] != "BaseModel":
-            print("** class doesn't exist **")
-            return
-        if len(line) == 1:
+        elif len(lines) == 1:
             print("** instance id missing **")
-            return
-        key = f"{line[0]}.{line[1]}"
+        key = f"{lines[0]}.{lines[1]}"
         if key not in models.storage.all():
             print("** no instance found **")
-            return
         del models.storage.all()[key]
         models.storage.save
 
     def do_all(self, line):
         """Prints all string representation of all instances based
         or not on the class name"""
-        if line and line != "BaseModel":
-            print("** class doesn't exist **")
-            return
-        instances = models.storage.all()
-        if line:
-            print([str(inst) for key, inst in instances.items() if key.startswith(line)])
+        lines = line.split()
+        if len(lines) == 0:
+            print([str(obj) for obj in models.storage.all().values()])
         else:
-            print([str(inst) for inst in instances.values()])
-        
-        
-        
-
-
-
+            class_name = lines[0]
+            if class_name in globals() and issubclass(globals()[class_name], BaseModel):
+                print([str(obj) for key, obj in models.storage.all().items() if key.startswith(class_name)])
+            else:
+                print("** class doesn't exist **")
+    def do_update(self, line):
+        """Updates an instance based on the class name and id by adding
+        or updating attributes"""
+        lines = line.split()
+        if len(lines) == 0:
+            print("** class name missing **")
+        elif len(lines) == 1:
+            print("** instance id missing **")
+        elif len(lines) == 2:
+            print("** attribute name missing **")
+        elif len(lines) == 3:
+            print("** value missing **")
+        else:
+            key = lines[0] + '.' + lines[1]
+            if key in models.storage.all():
+                obj = models.storage.all()[key]
+                setattr(obj, lines[2], lines[3])
+                obj.save()
+            else:
+                print("** no instance found **")
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
