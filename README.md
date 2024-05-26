@@ -6,4 +6,3 @@ Description of the command interpreter:
     how to use it
 
     examples
-    
