@@ -65,7 +65,8 @@ class TestFileStorage(unittest.TestCase):
 
     def test_save_with_different_classes(self):
         """Test saving and reloading objects of different classes."""
-        objects = [BaseModel(), User(), State(), City(), Amenity(), Place(), Review()]
+        objects = [BaseModel(), User(), State(), City(),
+                   Amenity(), Place(), Review()]
         for obj in objects:
             self.storage.new(obj)
         self.storage.save()
@@ -102,6 +103,7 @@ class TestFileStorage(unittest.TestCase):
         reloaded_obj = self.storage.all()[key]
         self.assertEqual(reloaded_obj.name, "My Place")
         self.assertEqual(reloaded_obj.city_id, "1234")
+
 
 if __name__ == '__main__':
     unittest.main()

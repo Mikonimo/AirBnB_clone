@@ -15,7 +15,7 @@ class HBNBCommand(cmd.Cmd):
     """command interpreter"""
 
     prompt = '(hbnb) '
-    
+
     def do_EOF(self, line):
         """command to exit the program"""
         return True
@@ -23,9 +23,10 @@ class HBNBCommand(cmd.Cmd):
     def do_quit(self, line):
         """command to exit the program\n"""
         return True
+
     def help_quit(self):
         print("Quit command to exit the program\n")
-    
+
     def emptyline(self):
         """do nothing"""
         pass
@@ -37,7 +38,8 @@ class HBNBCommand(cmd.Cmd):
             print("** class name missing **")
         else:
             cls_name = lines[0]
-            if cls_name in globals() and issubclass(globals()[cls_name], BaseModel):
+            if cls_name in globals() and issubclass(globals()[cls_name],
+                                                    BaseModel):
                 obj = globals()[cls_name]()
                 obj.save()
                 print(obj.id)
@@ -78,10 +80,13 @@ class HBNBCommand(cmd.Cmd):
             print([str(obj) for obj in models.storage.all().values()])
         else:
             class_name = lines[0]
-            if class_name in globals() and issubclass(globals()[class_name], BaseModel):
-                print([str(obj) for key, obj in models.storage.all().items() if key.startswith(class_name)])
+            if class_name in globals() and issubclass(globals()[class_name],
+                                                      BaseModel):
+                print([str(obj) for key, obj in models.storage.all().items()
+                       if key.startswith(class_name)])
             else:
                 print("** class doesn't exist **")
+
     def do_update(self, line):
         """Updates an instance based on the class name and id by adding
         or updating attributes"""
@@ -102,6 +107,7 @@ class HBNBCommand(cmd.Cmd):
                 obj.save()
             else:
                 print("** no instance found **")
+
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()

@@ -19,5 +19,6 @@ class TestReview(unittest.TestCase):
         self.assertTrue(hasattr(review, "created_at"))
         self.assertTrue(hasattr(review, "updated_at"))
 
+
 if __name__ == '__main__':
     unittest.main()

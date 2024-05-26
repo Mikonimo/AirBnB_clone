@@ -17,5 +17,6 @@ class TestState(unittest.TestCase):
         self.assertTrue(hasattr(state, "created_at"))
         self.assertTrue(hasattr(state, "updated_at"))
 
+
 if __name__ == '__main__':
     unittest.main()
