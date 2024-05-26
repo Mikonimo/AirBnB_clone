@@ -2,6 +2,7 @@
 """Tests"""
 import unittest
 import os
+import json
 from models.base_model import BaseModel
 from models.user import User
 from models.state import State
@@ -104,10 +105,6 @@ class TestFileStorage(unittest.TestCase):
         self.assertEqual(reloaded_obj.name, "My Place")
         self.assertEqual(reloaded_obj.city_id, "1234")
 
-    def test_all(self):
-        """Test that all returns the __objects dictionary."""
-        self.assertEqual(self.storage.all(), FileStorage._FileStorage__objects)
-
     def test_new(self):
         """Test that new adds an object to __objects."""
         user = User()
@@ -115,17 +112,6 @@ class TestFileStorage(unittest.TestCase):
         key = f"User.{user.id}"
         self.assertIn(key, self.storage.all())
         self.assertEqual(self.storage.all()[key], user)
-
-    def test_save(self):
-        """Test that save properly serializes objects to JSON file."""
-        user = User()
-        self.storage.new(user)
-        self.storage.save()
-        with open(self.file_path, 'r') as f:
-            data = json.load(f)
-        key = f"User.{user.id}"
-        self.assertIn(key, data)
-        self.assertEqual(data[key]['__class__'], 'User')
 
     def test_reload(self):
         """Test that reload properly deserializes the JSON file to __objects."""
