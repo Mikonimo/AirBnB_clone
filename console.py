@@ -36,6 +36,7 @@ class HBNBCommand(cmd.Cmd):
         lines = line.split()
         if len(lines) == 0:
             print("** class name missing **")
+            return
         else:
             cls_name = lines[0]
             if cls_name in globals() and issubclass(globals()[cls_name],
@@ -45,6 +46,7 @@ class HBNBCommand(cmd.Cmd):
                 print(obj.id)
             else:
                 print("** class doesn't exist **")
+                return
 
     def do_show(self, line):
         """Prints the string representation of an instance based
@@ -52,11 +54,17 @@ class HBNBCommand(cmd.Cmd):
         lines = line.split()
         if len(lines) == 0:
             print("** class name missing **")
+            return
+        elif lines[0] not in models.storage.classes():
+            print("** class doesn't exist **")
+            return
         elif len(lines) == 1:
             print("** instance id missing **")
+            return
         key = f"{lines[0]}.{lines[1]}"
         if key not in models.storage.all():
             print("** no instance found **")
+            return
         print(models.storage.all()[key])
 
     def do_destroy(self, line):
@@ -64,11 +72,17 @@ class HBNBCommand(cmd.Cmd):
         lines = line.split()
         if len(lines) == 0:
             print("** class name missing **")
+            return
+        elif lines[0] not in models.storage.classes():
+            print("** class doesn't exist **")
+            return
         elif len(lines) == 1:
             print("** instance id missing **")
+            return
         key = f"{lines[0]}.{lines[1]}"
         if key not in models.storage.all():
             print("** no instance found **")
+            return
         del models.storage.all()[key]
         models.storage.save
 
@@ -93,6 +107,8 @@ class HBNBCommand(cmd.Cmd):
         lines = line.split()
         if len(lines) == 0:
             print("** class name missing **")
+        elif lines[0] not in models.storage.classes():
+            print("** class doesn't exist **")
         elif len(lines) == 1:
             print("** instance id missing **")
         elif len(lines) == 2:

@@ -42,3 +42,15 @@ class FileStorage():
                     cls = globals().get(cls_name)
                     if cls:
                         self.__objects[key] = cls(**value)
+
+    def classes(self):
+        """Returns a dictionary of valid classes and their references"""
+        return {
+            'BaseModel': BaseModel,
+            'User': User,
+            'Amenity': Amenity,
+            'City': City,
+            'Place': Place,
+            'Review': Review,
+            'State': State
+        }
