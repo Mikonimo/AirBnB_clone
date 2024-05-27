@@ -1,4 +1,4 @@
-**Project Description:**
+**Project Description:**
 
 The project discussed involves the creation of an AirBnB clone, a simplified version of the popular accommodation rental platform. The clone includes a command-line interface (CLI) that allows users to interact with the system, perform CRUD operations (Create, Read, Update, Delete) on various objects like Users, Places, Cities, States, Amenities, and Reviews. The project also includes a storage system for managing object persistence.
 
