@@ -83,8 +83,8 @@ class HBNBCommand(cmd.Cmd):
         if key not in models.storage.all():
             print("** no instance found **")
             return
-        del models.storage.all()[key]
-        models.storage.save
+        instance = models.storage.all()[key]
+        models.storage.delete(instance)
 
     def do_all(self, line):
         """Prints all string representation of all instances based
